@@ -1,0 +1,5 @@
+install.packages("data.table")
+install.packages("knitr")
+install.packages("tidyverse")
+install.packages("dplyr")
+install.packages("ggplot2")
