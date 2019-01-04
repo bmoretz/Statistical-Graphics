@@ -10,6 +10,7 @@ output:
 ---
 
 ```{r knitr-setup, include = FALSE}
+
 library(knitr)
 
 knitr::opts_chunk$set(eval = TRUE)
@@ -29,12 +30,16 @@ assignInNamespace("cedta.pkgEvalsUserCode", c(data.table:::cedta.pkgEvalsUserCod
 require(dplyr, quietly = TRUE, warn.conflicts = FALSE)
 require(ggplot2, quietly = TRUE, warn.conflicts = FALSE)
 
+require(directlabels, quietly = TRUE, warn.conflicts = FALSE)
+
 mpg
 
 ```
+### Section 3.2
 
-### Exercises 3.2
+#### Plot Types
 
+### Exercises 3.2.1
 
 > __Question 1__: 
 
@@ -67,6 +72,71 @@ p + geom_line() + ggtitle("line")
 p + geom_area() + ggtitle("area")
 p + geom_path() + ggtitle("path")
 p + geom_polygon() + ggtitle("polygon")
+
+```
+
+### Section 3.3
+
+#### Text
+
+```{r ch_3.3}
+
+df <- data.frame(x = 1, y = 3:1, family = c("sans", "serif", "mono"))
+
+ggplot(df, aes(x, y)) +
+    geom_text(aes(label = family, family = family))
+
+df <- data.frame(x = 1, y = 3:1, face = c("plain", "bold", "italic"))
+
+ggplot(df, aes(x, y)) +
+   geom_text(aes(label = face, fontface = face))
+
+df <- data.frame(x = c(1, 1, 2, 2, 1.5),
+                 y = c(1, 2, 1, 2, 1.5),
+                 text = c(
+                          "bottom-left", "bottom-right",
+                          "top-left", "top-right", "center"))
+
+ggplot(df, aes(x, y)) +
+   geom_text(aes(label = text))
+
+ggplot(df, aes(x, y)) +
+   geom_text(aes(label = text, vjust = "inward", hjust = "inward"))
+
+df <- data.frame(trt = c("a", "b", "c"), resp = c(1.2, 3.4, 2.5))
+
+ggplot(df, aes(trt, resp)) +
+   geom_point() +
+   geom_text(aes(label = paste0("(", resp, ")")), nudge_y = -0.25)
+
+ggplot(mpg, aes(displ, hwy)) +
+   geom_text(aes(label = model)) +
+   xlim(1, 8)
+
+ggplot(mpg, aes(displ, hwy)) +
+   geom_text(aes(label = model), check_overlap = T) +
+   xlim(1, 8)
+
+label <- data.frame(waiting = c(55, 80),
+                    eruptions = c(2, 4.3),
+                    label = c("peak one", "peak two"))
+
+ggplot(faithfuld, aes(waiting, eruptions)) +
+   geom_tile(aes(fill = density)) +
+   geom_label(data = label, aes(label = label))
+
+ggplot(mpg, aes(displ, hwy, colour = class)) +
+   geom_point(show.legend = F) +
+   directlabels::geom_dl(aes(label = class), method = "smart.grid")
+
+
+```
+
+### Exercises
+
+
+```{r ch_3.3.1_1}
+
 
 ```
 
